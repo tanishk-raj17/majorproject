@@ -1,0 +1,252 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+
+
+
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+
+/* Footer */
+.f-info-links a {
+    text-decoration: none;
+    color: #222222
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-links,.f-info-socials, .f-info-brand {
+    width:100%;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials i{
+     margin-right: 1rem;
+     font-size: 1.2rem;
+}
+
+.f-info {
+    text-align: center;
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+
+/*cards*/
+
+.card{
+    border:none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+ 
+.card-text p {
+   font-weight: 400 !important;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+
+/*card effect*/
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
+/*Show page*/
+.show-img{
+    height:30vh;
+}
+
+.alert {
+    position: relative;
+    padding-right: 2.2rem !important; /* close button ke liye jagah */
+}
+
+.alert .btn-close {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem; /* yahan se perfect adjust hota hai */
+    transform: translateY(-50%);
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 0.9rem;
+    height: 0.9rem;
+}
+
+.rating-stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  font-size: 2.8rem; /* ⭐ Bigger Stars */
+  gap: 6px;
+}
+
+.rating-stars input {
+  display: none;
+}
+
+.rating-stars .star {
+  color: #d3d3d3; /* Grey default */
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.rating-stars .star:hover,
+.rating-stars .star:hover ~ .star {
+  color: #ffd700; /* Yellow on hover */
+  transform: scale(1.15);
+}
+
+.rating-stars input:checked ~ .star {
+  color: #ffc400; /* Yellow when selected */
+}
+
+.rating-stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;  /* ⭐ Right Align */
+  font-size: 2.8rem;
+  gap: 6px;
+}
+
+/* Outer wrapper: same row */
+.filters-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding: 0.8rem 0;
+}
+
+/* Icons row */
+#filters {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;          /* 👈 PEHLE zyada tha, ab kam */
+  overflow-x: auto;
+  flex: 1;
+}
+
+#filters::-webkit-scrollbar {
+  display: none;
+}
+
+/* Single filter */
+.filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;      /* 👈 thoda narrow */
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: #222;
+}
+
+.filter i {
+  font-size: 1.35rem;
+}
+
+.filter span {
+  margin-top: 4px;
+}
+
+/* Switch container */
+.tax-switch-box {
+  border: 1px solid #ddd;
+  border-radius: 22px;
+  padding: 0.45rem 0.9rem;
+  white-space: nowrap;
+  background: #fff;
+  flex-shrink: 0;       /* 👈 icons squeeze na kare */
+}
+
+/* ===== NAVBAR CENTER FIX ===== */
+.navbar-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 6px 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+.search-input {
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  width: 260px;
+  align-items: center;
+}
+
+/* DIVIDER */
+.search-divider {
+  width: 1px;
+  height: 24px;
+  background: #ddd;
+  margin: 0 8px;
+  align-items: center;
+}
+
+/* BUTTON */
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ff385c;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 500;
+  cursor: pointer;
+  align-items: center;
+}
+
+.search-btn:hover {
+  background: #e31c5f;
+}

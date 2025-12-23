@@ -1,0 +1,126 @@
+<% layout("layouts/boilerplate") %>
+
+<title>New Listing</title>
+
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    padding: 40px 0;
+  }
+
+  .form-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+
+  label {
+    font-weight: 500;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s ease;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  input:focus, textarea:focus {
+    border-color: #111;
+  }
+
+  button {
+    margin-top: 30px;
+    padding: 14px 24px;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: #333;
+  }
+
+  .row-flex {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .half {
+    flex: 1;
+  }
+</style>
+
+
+<body>
+
+<div class="form-wrapper">
+
+  <h1>Create New Listing</h1>
+
+ <form method="POST" action="/listings" enctype="multipart/form-data" class="needs-validation">
+
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input name="listing[title]" placeholder="Enter your title" type="text" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea name="listing[description]" placeholder="Write your description" class="form-control" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Upload Listing Image</label>
+      <input name="image" type="file" class="form-control" accept="image/*">
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Price</label>
+        <input name="listing[price]" placeholder="Enter price" type="text" class="form-control" required>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Country</label>
+        <input name="listing[country]" placeholder="Country" type="text" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Location</label>
+      <input name="listing[location]" placeholder="Enter your location" type="text" class="form-control" required>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Add Listing</button>
+
+</form>
+
+</body>
+</html>
+
+
+

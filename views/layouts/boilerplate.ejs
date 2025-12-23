@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreX</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+      .flash-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+      }
+    </style>
+</head>
+
+<body>
+
+    <!-- ⭐ FINAL CORRECT NAVBAR INCLUDE -->
+   <%- include("../includes/navbar") %>
+
+    <div class="flash-wrapper">
+      <% if (success && success.length > 0) { %>
+        <div class="alert alert-success fade show" role="alert" style="width: fit-content;">
+          <%= success %>
+        </div>
+      <% } %>
+
+      <% if (error && error.length > 0) { %>
+        <div class="alert alert-danger fade show" role="alert" style="width: fit-content;">
+          <%= error %>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="container mt-4">
+      <%- body %>
+    </div>
+
+    <!-- ⭐ FINAL CORRECT FOOTER INCLUDE -->
+    <%- include("../includes/footer") %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Auto Hide Script -->
+    <script>
+      setTimeout(() => {
+        const alert = document.querySelector('.alert');
+        if (alert) alert.remove();
+      }, 2000);
+    </script>
+
+    <script src="/js/tax.js"></script>
+
+</body>
+</html>

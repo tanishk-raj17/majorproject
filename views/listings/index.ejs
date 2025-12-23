@@ -1,0 +1,72 @@
+<% layout("layouts/boilerplate") %>
+
+<h1 class="text-center fw-bold" 
+    style="font-size: 3rem; letter-spacing: 2px; font-family: 'Plus Jakarta Sans', sans-serif;">
+  ExploreX
+</h1>
+
+<div class="filters-wrapper">
+
+  <!-- LEFT: ICON FILTERS -->
+  <div id="filters">
+    <div class="filter"><i class="fa-solid fa-fire"></i><span>Trending</span></div>
+    <div class="filter"><i class="fa-solid fa-bed"></i><span>Rooms</span></div>
+    <div class="filter"><i class="fa-solid fa-city"></i><span>Iconic Cities</span></div>
+    <div class="filter"><i class="fa-solid fa-mountain"></i><span>Mountains</span></div>
+    <div class="filter"><i class="fa-solid fa-chess-rook"></i><span>Castles</span></div>
+    <div class="filter"><i class="fa-solid fa-water-ladder"></i><span>Amazing Pools</span></div>
+    <div class="filter"><i class="fa-solid fa-campground"></i><span>Camping</span></div>
+    <div class="filter"><i class="fa-solid fa-tractor"></i><span>Farms</span></div>
+    <div class="filter"><i class="fa-solid fa-snowflake"></i><span>Arctic</span></div>
+    <div class="filter"><i class="fa-solid fa-igloo"></i><span>Domes</span></div>
+   <div class="filter"><i class="fa-solid fa-sailboat"></i><span>Boats</span></div>
+
+  </div>
+
+  <!-- RIGHT: TAX SWITCH -->
+  <div class="tax-switch-box">
+    <div class="form-check form-switch m-0">
+      <input class="form-check-input" type="checkbox" id="taxSwitch">
+      <label class="form-check-label ms-2" for="taxSwitch">
+        Display total after taxes
+      </label>
+    </div>
+  </div>
+
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+  <% allListings.forEach(listing => { %>
+
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+
+      <div class="card col">
+
+        <!-- ⭐ FIXED IMAGE LINE (supports old + new listings) -->
+        <img 
+          src="<%= listing.image?.url || listing.image || '/images/default.jpg' %>" 
+          class="card-img-top" 
+          alt="Listing Image"
+          style="height: 20rem; object-fit: cover;"
+        />
+
+        <div class="card-img-overlay">ABCD</div>
+
+        <div class="card-body">
+          <p class="card-text">
+            <b><%= listing.title %></b><br />
+          </p>
+       <p class="price-text" data-base-price="<%= listing.price %>">
+  ₹ <span class="price-amount">
+    <%= listing.price.toLocaleString("en-IN") %>
+  </span> / night
+  <br>
+  <span class="tax-info d-none">including GST</span>
+</p>
+
+     
+        </div>
+      </div>
+    </a>
+  <% }) %>
+</div>

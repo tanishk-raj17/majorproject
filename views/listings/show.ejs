@@ -1,0 +1,216 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="show-wrapper">
+
+  <h1><%= listing.title %></h1>
+
+  <!-- Listing Image -->
+  <div class="card">
+   <img src="<%= listing.image && listing.image.url ? listing.image.url : '/images/default.jpg' %>" 
+         class="card-img-top show-img" 
+         alt="listing_image">
+    <div class="card-body">
+      <p class="card-text"><%= listing.title %></p>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <h3><%= listing.title %></h3>
+  <p>Description: <%= listing.description %></p>
+  <p>Price: ₹<%= listing.price %></p>
+  <p>Location: <%= listing.location %></p>
+  <p>Country: <%= listing.country %></p>
+
+  <br/><br/>
+
+  <!-- Buttons -->
+ <% if (currUser) { %>
+  <div class="btn-group">
+    <a href="/listings/<%= listing._id %>/edit" class="edit-btn">Edit</a>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+      <button class="delete-btn">Delete this listing</button>
+    </form>
+  </div>
+<% } %>
+
+
+
+<!-- ⭐ REVIEW SECTION ⭐ -->
+<div class="row">
+  <div class="col-md-8 mx-auto mb-3">
+
+    <hr />
+    <h4 class="mb-3">Leave a Review</h4>
+
+    <!-- Review Form -->
+    <form method="POST" action="/listings/<%= listing._id %>/reviews" 
+          class="needs-validation" 
+          novalidate>
+
+   <div class="rating-stars">
+  <input type="radio" id="star5" name="review[rating]" value="5" />
+  <label for="star5" class="star">&#9733;</label>
+
+  <input type="radio" id="star4" name="review[rating]" value="4" />
+  <label for="star4" class="star">&#9733;</label>
+
+  <input type="radio" id="star3" name="review[rating]" value="3" />
+  <label for="star3" class="star">&#9733;</label>
+
+  <input type="radio" id="star2" name="review[rating]" value="2" />
+  <label for="star2" class="star">&#9733;</label>
+
+  <input type="radio" id="star1" name="review[rating]" value="1" />
+  <label for="star1" class="star">&#9733;</label>
+</div>
+
+
+
+      <div class="mb-3 mt-3">
+        <label for="comment" class="form-label">Comments</label>
+        <textarea
+          name="review[comment]"
+          id="comment"
+          cols="30"
+          rows="3"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please submit some comments.</div>
+      </div>
+
+      <button class="btn btn-outline-dark">Submit</button>
+    </form>
+
+    <hr />
+
+   <hr />
+<hr />
+<h4 class="mb-3">All Reviews</h4>
+
+<% if (listing.reviews.length === 0) { %>
+  <p class="text-muted">No reviews yet.</p>
+<% } else { %>
+
+<div class="row">
+
+  <% listing.reviews.forEach(review => { %>
+
+    <div class="col-md-6 mb-4"> <!-- ⭐ 2 cards per row -->
+      <div class="card shadow-sm review-card">
+        <div class="card-body">
+
+          <!-- ⭐ Rating -->
+          <h5 class="card-title mb-2">
+            Rating: 
+            <span class="text-warning fw-bold"><%= review.rating %> ⭐</span>
+          </h5>
+
+          <!-- ⭐ USERNAME -->
+<p class="text-primary fw-bold mb-1">
+  Reviewed by: <%= review.author ? review.author.username : "Unknown User" %>
+</p>
+
+<!-- 💬 Comment -->
+<p class="card-text text-secondary">
+  <%= review.comment %>
+</p>
+
+
+          <!-- 🗑 Delete button -->
+         <% if (currUser && review.author && review.author._id.toString() === currUser._id.toString()) { %>
+  <form method="POST"
+    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+    <button class="btn btn-sm btn-outline-danger">Delete Review</button>
+  </form>
+<% } %>
+
+
+        </div>
+      </div>
+    </div>
+
+  <% }) %>
+
+</div>
+
+<% } %>
+
+
+  </div>
+</div>
+
+
+<!-- ⭐ STYLES ⭐ -->
+<style>
+.show-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.show-img {
+  width: 90%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-group {
+  display: flex;
+  gap: 20px;
+}
+
+.edit-btn {
+  background: #ff4d4d;
+  padding: 10px 25px;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.delete-btn {
+  background: #111;
+  padding: 10px 25px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Review slider styling */
+.rating-slider {
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  border-radius: 10px;
+  background: linear-gradient(blue, blue) 0/0% 100% no-repeat, #ddd;
+}
+
+.rating-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: blue;
+  border-radius: 50%;
+  cursor: pointer;
+}
+</style>
+
+<!-- ⭐ SLIDER SCRIPT ⭐ -->
+<script>
+const slider = document.querySelector(".rating-slider");
+
+if (slider) {
+  slider.addEventListener("input", function () {
+    const value = (this.value - this.min) / (this.max - this.min) * 100;
+    this.style.backgroundSize = value + "% 100%";
+  });
+}
+</script>

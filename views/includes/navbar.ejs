@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top shadow-sm">
+
+  <div class="container-fluid">
+
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/listings">
+    <i class="fa-solid fa-mountain-sun"></i>
+    </a>
+
+
+    <!-- TOGGLER -->
+    <button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- COLLAPSE -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- LEFT SIDE -->
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+
+      <div class="navbar-center">
+  <form class="search-bar" action="/listings" method="GET">
+
+    <input
+      type="text"
+      name="search"
+      class="search-input"
+      placeholder="Search destinations"
+    />
+
+    <div class="search-divider"></div>
+
+    <button class="search-btn" type="submit">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Search</span>
+    </button>
+
+  </form>
+</div>
+
+      <!-- RIGHT SIDE -->
+      <div class="navbar-nav ms-auto align-items-md-center">
+
+        <% if (currUser) { %>
+          <a class="btn btn-outline-primary mx-2" href="/listings/new">
+            Airbnb your home
+          </a>
+
+          <a class="btn btn-danger mx-2" href="/users/logout">
+            Logout
+          </a>
+
+        <% } else { %>
+          <a class="btn btn-outline-dark mx-2" href="/users/login">
+            Login
+          </a>
+          <a class="btn btn-dark mx-2" href="/users/signup">
+            Sign Up
+          </a>
+        <% } %>
+
+      </div>
+
+    </div>
+  </div>
+</nav>
+
