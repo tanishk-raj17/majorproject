@@ -20,7 +20,7 @@ const reviewRoutes = require("./routes/review");
 const userRoutes = require("./routes/user");
 
 // ================= DATABASE =================
-const dbUrl = process.env.MONGO_URL;
+const dbUrl = process.env.MONGO_URL || process.env.ATLASDB_URL;
 
 async function connectDB() {
   try {
