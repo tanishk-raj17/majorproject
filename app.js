@@ -19,32 +19,34 @@ const listingRoutes = require("./routes/listing");
 const reviewRoutes = require("./routes/review");
 const userRoutes = require("./routes/user");
 
-// ------------------------- DATABASE -------------------------
-const dbUrl = process.env.ATLASDB_URL;
+// ================= DATABASE =================
+const dbUrl = process.env.MONGO_URL;
 
-async function main() {
-  await mongoose.connect(dbUrl);
+async function connectDB() {
+  try {
+    await mongoose.connect(dbUrl);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1);
+  }
 }
 
-main()
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("MongoDB connection error:", err);
-  });
+connectDB();
 
-// ------------------------- BASIC MIDDLEWARE -------------------------
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "public")));
+// ================= BASIC CONFIG =================
+app.set("trust proxy", 1);
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// ------------------------- SESSION STORE -------------------------
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")));
+
+// ================= SESSION STORE =================
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   crypto: {
@@ -53,26 +55,27 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
-store.on("error", function (err) {
-  console.log("ERROR in Mongo Session Store", err);
+store.on("error", (e) => {
+  console.log("SESSION STORE ERROR:", e);
 });
 
 const sessionOptions = {
   store,
+  name: "explorex-session",
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7, 
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     sameSite: "lax",
-    secure: false,
+    secure: process.env.NODE_ENV === "production", 
   },
 };
 
 app.use(session(sessionOptions));
 
-// ------------------------- PASSPORT -------------------------
+// ================= PASSPORT =================
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -80,7 +83,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// ------------------------- FLASH + GLOBAL VARIABLES -------------------------
+// ================= FLASH + LOCALS =================
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -90,23 +93,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// ------------------------- ROUTES -------------------------
+// ================= ROUTES =================
 app.use("/users", userRoutes);
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
 
-// ------------------------- 404 PAGE -------------------------
+// ================= 404 =================
 app.use((req, res) => {
   res.status(404).render("notfound", { layout: false });
 });
 
-// ------------------------- GLOBAL ERROR HANDLER -------------------------
+// ================= ERROR HANDLER =================
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
   res.status(statusCode).render("error", { message, layout: false });
 });
 
-// ------------------------- START SERVER -------------------------
-app.listen(8080, () => {
-  console.log("Server running on port 8080");
+// ================= START SERVER =================
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
