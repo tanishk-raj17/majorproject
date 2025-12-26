@@ -6,8 +6,10 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+
 const session = require("express-session");
 const MongoStore = require("connect-mongo").default;
+
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -21,24 +23,20 @@ const userRoutes = require("./routes/user");
 
 /* ================= DATABASE ================= */
 
-const dbUrl = process.env.MONGO_URL || process.env.ATLASDB_URL;
+const dbUrl = process.env.ATLASDB_URL || process.env.MONGO_URL;
 
 if (!dbUrl) {
-  console.error("MONGO_URL is not defined");
+  console.error("Database URL not found");
   process.exit(1);
 }
 
-async function connectDB() {
-  try {
-    await mongoose.connect(dbUrl);
-    console.log("Connected to MongoDB");
-  } catch (err) {
-    console.error("MongoDB connection error:", err.message);
+mongoose
+  .connect(dbUrl)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
     process.exit(1);
-  }
-}
-
-connectDB();
+  });
 
 /* ================= BASIC CONFIG ================= */
 
@@ -54,8 +52,10 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 /* ================= SESSION STORE ================= */
+
 const store = MongoStore.create({
-  clientPromise: mongoose.connection.asPromise(),
+  mongoUrl: dbUrl,
+  collectionName: "sessions",
   crypto: {
     secret: process.env.SESSION_SECRET,
   },
@@ -66,21 +66,21 @@ store.on("error", (err) => {
   console.error("SESSION STORE ERROR:", err);
 });
 
-const sessionOptions = {
-  store,
-  name: "explorex-session",
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  },
-};
-
-app.use(session(sessionOptions));
+app.use(
+  session({
+    store,
+    name: "explorex-session",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    },
+  })
+);
 
 /* ================= PASSPORT ================= */
 
@@ -123,9 +123,8 @@ app.use((err, req, res, next) => {
 
 /* ================= START SERVER ================= */
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
