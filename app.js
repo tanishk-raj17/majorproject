@@ -102,6 +102,12 @@ app.use((req, res, next) => {
   next();
 });
 
+/* ================= HOME ROUTE (404 FIX) ================= */
+
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 /* ================= ROUTES ================= */
 
 app.use("/users", userRoutes);
@@ -126,5 +132,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
